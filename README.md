@@ -1,59 +1,59 @@
 # Spotify Ontario Music Analysis
 
-Este proyecto analiza las tendencias musicales en playlists de Spotify relacionadas con Ontario, incluyendo análisis de características de audio, popularidad y patrones temporales.
+This project analyzes music trends in Spotify playlists related to Ontario, including analysis of audio features, popularity, and temporal patterns.
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 spotify-ontario-analysis/
 │
 ├── data/
-│   ├── raw/               # Datos crudos extraídos (JSON, CSV)
-│   ├── processed/         # Datos limpios (Parquet, CSV)
-│   └── samples/           # Muestras pequeñas para pruebas
+│   ├── raw/               # Raw extracted data (JSON, CSV)
+│   ├── processed/         # Clean data (Parquet, CSV)
+│   └── samples/           # Small samples for testing
 │
 ├── notebooks/
-│   ├── 01_collect.ipynb   # Extracción de datos
-│   ├── 02_clean.ipynb     # Limpieza y preprocesado
-│   └── 03_analysis.ipynb  # Análisis exploratorio y modelado
+│   ├── 01_collect.ipynb   # Data extraction
+│   ├── 02_clean.ipynb     # Cleaning and preprocessing
+│   └── 03_analysis.ipynb  # Exploratory analysis and modeling
 │
 ├── dashboard/
-│   ├── app.py             # Código del dashboard (Streamlit)
-│   └── assets/            # Logos, íconos o imágenes
+│   ├── app.py             # Dashboard code (Streamlit)
+│   └── assets/            # Logos, icons, or images
 │
-└── reports/               # Plantillas de informes
+└── reports/               # Report templates
 ```
 
-## Requisitos
+## Requirements
 
 - Python 3.8+
-- Bibliotecas Python listadas en `requirements.txt`
-- Credenciales de API de Spotify
+- Python libraries listed in `requirements.txt`
+- Spotify API credentials
 
-## Configuración
+## Setup
 
-1. Clonar el repositorio
-2. Crear un entorno virtual:
+1. Clone the repository
+2. Create a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # En Windows: venv\Scripts\activate
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
-3. Instalar dependencias:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Copiar `.env.example` a `.env` y configurar las credenciales de Spotify
+4. Copy `.env.example` to `.env` and configure Spotify credentials
 
-## Uso
+## Usage
 
-1. Extracción de Datos:
-   - Ejecutar `notebooks/01_collect.ipynb` para recolectar datos de Spotify
+1. Data Extraction:
+   - Run `notebooks/01_collect.ipynb` to collect data from Spotify
    
-2. Procesamiento:
-   - Ejecutar `notebooks/02_clean.ipynb` para limpiar y preprocesar los datos
+2. Processing:
+   - Run `notebooks/02_clean.ipynb` to clean and preprocess the data
    
-3. Análisis:
-   - Ejecutar `notebooks/03_analysis.ipynb` para el análisis exploratorio
+3. Analysis:
+   - Run `notebooks/03_analysis.ipynb` for exploratory analysis
    
 4. Dashboard:
    ```bash
@@ -61,29 +61,29 @@ spotify-ontario-analysis/
    streamlit run app.py
    ```
 
-## Estructura de Datos
+## Data Structure
 
 ### Raw Data
-- `playlists_*.csv`: Información básica de playlists
-- `tracks_*.csv`: Información de canciones
-- `audio_features_*.csv`: Características de audio
+- `playlists_*.csv`: Basic playlist information
+- `tracks_*.csv`: Track information
+- `audio_features_*.csv`: Audio features
 
 ### Processed Data
-- Archivos Parquet con datos limpios y procesados
-- Datos de muestra para pruebas rápidas
+- Parquet files with clean and processed data
+- Sample data for quick testing
 
 ## Dashboard
 
-El dashboard incluye:
-- Vista general de métricas clave
-- Análisis temporal de características musicales
-- Distribuciones de features de audio
-- Rankings de popularidad
+The dashboard includes:
+- Overview of key metrics
+- Temporal analysis of musical features
+- Audio feature distributions
+- Popularity rankings
 
-## Contribuir
+## Contributing
 
-1. Fork del repositorio
-2. Crear una rama para features: `git checkout -b feature/nombre`
-3. Commit de cambios: `git commit -am 'Añadir feature'`
-4. Push a la rama: `git push origin feature/nombre`
-5. Crear Pull Request
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/name`
+3. Commit changes: `git commit -am 'Add feature'`
+4. Push to the branch: `git push origin feature/name`
+5. Create Pull Request
