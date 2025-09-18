@@ -1,29 +1,18 @@
 # Data manipulation and analysis
-pandas>=2.0.0
-numpy>=1.24.0
+pandas==2.1.0
+numpy==1.24.3
 
-# API interaction
-spotipy>=2.23.0
-requests>=2.31.0
+# Spotify API
+spotipy==2.23.0
+python-dotenv==1.0.0
 
 # Data visualization
-plotly>=5.15.0
-matplotlib>=3.7.0
-seaborn>=0.12.0
+plotly==5.16.1
+matplotlib==3.7.2
+seaborn==0.12.2
 
 # Dashboard
-streamlit>=1.24.0
+streamlit==1.26.0
 
-# Data storage and processing
-pyarrow>=12.0.0
-
-# Environment variables
-python-dotenv>=1.0.0
-
-# Jupyter notebooks
-jupyter>=1.0.0
-notebook>=7.0.0
-
-# Data quality and testing
-pytest>=7.4.0
-great-expectations>=0.17.0
+# Data storage
+pyarrow==13.0.0  # For parquet files

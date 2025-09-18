@@ -3,29 +3,43 @@ __pycache__/
 *.py[cod]
 *$py.class
 .Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
 venv/
 ENV/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-
-# VS Code
-.vscode/
-*.code-workspace
+.cache
+.spotify_cache
 
 # Environment variables
 .env
+
+# IDE
+.vscode/
+.idea/
 
 # Data files
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-!data/samples/.gitkeep
 
-# Logs
-*.log
-
-# System
-.DS_Store
-Thumbs.db
+# Dashboard data
+dashboard/data.json
