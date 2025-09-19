@@ -1,9 +1,13 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -15,9 +19,68 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Project specific
+# Spotify authentication cache
+.spotify_cache
+.cache-*
+
+# Data files (keep structure but ignore large files)
+data/raw/*.csv
+data/processed/*.parquet
+data/processed/*.csv
+!data/samples/
+
+# Logs
+logs/
+*.log
+
+# Dashboard data (regenerated)
+dashboard/data.json
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large data files
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Backup files
+*.bak
+*~
 
 # Virtual Environment
 venv/

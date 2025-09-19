@@ -1,0 +1,574 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import json
+import os
+from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Get dashboard configuration
+DASHBOARD_TITLE = os.getenv("DASHBOARD_TITLE", "Ontario Music Analysis")
+DASHBOARD_PORT = int(os.getenv("DASHBOARD_PORT", "8501"))
+
+# Configure Streamlit page
+st.set_page_config(
+    page_title=DASHBOARD_TITLE,
+    page_icon="🎵",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Custom CSS for better styling
+def load_css():
+    """Load custom CSS styling."""
+    css_file = "assets/style.css"
+    if os.path.exists(css_file):
+        with open(css_file, 'r', encoding='utf-8') as f:
+            css_content = f.read()
+        st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
+    else:
+        # Fallback CSS if file not found
+        st.markdown("""
+        <style>
+            .main-header {
+                font-size: 3rem;
+                color: #1DB954;
+                text-align: center;
+                margin-bottom: 2rem;
+                font-weight: bold;
+            }
+            .metric-card {
+                background: linear-gradient(135deg, #1DB954, #1ed760);
+                padding: 1rem;
+                border-radius: 10px;
+                color: white;
+                text-align: center;
+            }
+            .stMetric > label {
+                color: #1DB954 !important;
+                font-weight: bold !important;
+            }
+            h2 {
+                color: #2c3e50;
+                border-bottom: 3px solid #1DB954;
+                padding-bottom: 0.5rem;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+
+# Load custom styling
+load_css()
+
+@st.cache_data
+def load_data():
+    """Load dashboard data from processed CSV/Parquet files."""
+    try:
+        import glob
+        
+        # Look for the most recent processed files
+        processed_dir = "../data/processed"
+        
+        # Try to find latest tracks file
+        track_patterns = [
+            f"{processed_dir}/clean_tracks_*.parquet",
+            f"{processed_dir}/clean_tracks_*.csv"
+        ]
+        
+        playlist_patterns = [
+            f"{processed_dir}/clean_playlists_*.parquet", 
+            f"{processed_dir}/clean_playlists_*.csv"
+        ]
+        
+        tracks_file = None
+        playlists_file = None
+        
+        # Find most recent tracks file
+        for pattern in track_patterns:
+            files = glob.glob(pattern)
+            if files:
+                tracks_file = max(files, key=os.path.getctime)
+                break
+        
+        # Find most recent playlists file  
+        for pattern in playlist_patterns:
+            files = glob.glob(pattern)
+            if files:
+                playlists_file = max(files, key=os.path.getctime)
+                break
+        
+        if not tracks_file:
+            st.error("❌ No processed tracks data found. Please run the data collection and cleaning notebooks first.")
+            return None
+            
+        # Load data
+        if tracks_file.endswith('.parquet'):
+            tracks_df = pd.read_parquet(tracks_file)
+        else:
+            tracks_df = pd.read_csv(tracks_file)
+            
+        if playlists_file:
+            if playlists_file.endswith('.parquet'):
+                playlists_df = pd.read_parquet(playlists_file)
+            else:
+                playlists_df = pd.read_csv(playlists_file)
+        else:
+            playlists_df = pd.DataFrame()
+        
+        # Process data for dashboard
+        data = process_data_for_dashboard(tracks_df, playlists_df)
+        return data
+        
+    except Exception as e:
+        st.error(f"❌ Error loading data: {e}")
+        return None
+
+def process_data_for_dashboard(tracks_df, playlists_df):
+    """Process loaded data for dashboard consumption."""
+    data = {}
+    
+    # Basic metadata
+    data['metadata'] = {
+        'total_tracks': len(tracks_df),
+        'total_playlists': len(playlists_df) if not playlists_df.empty else 0,
+        'last_updated': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    # Detect audio features
+    audio_features = ['danceability', 'energy', 'valence', 'tempo', 'loudness', 
+                     'acousticness', 'instrumentalness', 'liveness', 'speechiness']
+    available_features = [f for f in audio_features if f in tracks_df.columns]
+    data['metadata']['available_features'] = available_features
+    
+    # Date range
+    if 'release_date' in tracks_df.columns:
+        try:
+            tracks_df['release_year'] = pd.to_datetime(tracks_df['release_date'], errors='coerce').dt.year
+            data['metadata']['date_range'] = {
+                'min_year': int(tracks_df['release_year'].min()),
+                'max_year': int(tracks_df['release_year'].max())
+            }
+        except:
+            data['metadata']['date_range'] = {}
+    
+    # Top tracks (by popularity if available, otherwise by frequency)
+    if 'popularity' in tracks_df.columns:
+        top_tracks = tracks_df.nlargest(20, 'popularity')[['name', 'artist', 'album', 'popularity']].to_dict('records')
+    else:
+        # Use most common tracks
+        track_counts = tracks_df.groupby(['name', 'artist']).size().reset_index(name='frequency')
+        top_tracks = track_counts.nlargest(20, 'frequency').to_dict('records')
+    
+    data['top_tracks'] = top_tracks
+    
+    # Feature correlations
+    if available_features and len(available_features) > 1:
+        corr_matrix = tracks_df[available_features].corr()
+        data['feature_correlations'] = corr_matrix.to_dict()
+    else:
+        data['feature_correlations'] = {}
+    
+    # Yearly trends
+    if 'release_year' in tracks_df.columns and available_features:
+        yearly_stats = tracks_df.groupby('release_year')[available_features].mean().reset_index()
+        # Filter to reasonable year range
+        yearly_stats = yearly_stats[(yearly_stats['release_year'] >= 1990) & 
+                                  (yearly_stats['release_year'] <= 2025)]
+        data['yearly_trends'] = yearly_stats.to_dict('records')
+    else:
+        data['yearly_trends'] = []
+    
+    # Summary statistics
+    if available_features:
+        summary_stats = {}
+        for feature in available_features:
+            feature_data = tracks_df[feature].dropna()
+            if len(feature_data) > 0:
+                summary_stats[feature] = {
+                    'mean': float(feature_data.mean()),
+                    'median': float(feature_data.median()),
+                    'std': float(feature_data.std()),
+                    'min': float(feature_data.min()),
+                    'max': float(feature_data.max()),
+                    'count': int(len(feature_data))
+                }
+        data['summary_stats'] = summary_stats
+    else:
+        data['summary_stats'] = {}
+    
+    return data
+
+def create_feature_correlation_heatmap(correlations):
+    """Create correlation heatmap."""
+    if not correlations:
+        return None
+    
+    # Convert to DataFrame for plotting
+    df_corr = pd.DataFrame(correlations)
+    
+    fig = px.imshow(
+        df_corr,
+        text_auto=True,
+        aspect="auto",
+        color_continuous_scale="RdBu_r",
+        title="Audio Features Correlation Matrix"
+    )
+    
+    fig.update_layout(
+        title_x=0.5,
+        height=600,
+        font=dict(size=12)
+    )
+    
+    return fig
+
+def create_yearly_trends_chart(yearly_data):
+    """Create yearly trends line chart."""
+    if not yearly_data:
+        return None
+    
+    df_yearly = pd.DataFrame(yearly_data)
+    
+    fig = go.Figure()
+    
+    # Add traces for each feature
+    features = [col for col in df_yearly.columns if col != 'release_year']
+    colors = px.colors.qualitative.Set3
+    
+    for i, feature in enumerate(features):
+        fig.add_trace(go.Scatter(
+            x=df_yearly['release_year'],
+            y=df_yearly[feature],
+            mode='lines+markers',
+            name=feature.title(),
+            line=dict(color=colors[i % len(colors)], width=3),
+            marker=dict(size=6)
+        ))
+    
+    fig.update_layout(
+        title="Musical Features Trends Over Time",
+        title_x=0.5,
+        xaxis_title="Year",
+        yaxis_title="Feature Value",
+        height=500,
+        hovermode='x unified'
+    )
+    
+    return fig
+
+def create_top_tracks_chart(top_tracks):
+    """Create top tracks bar chart."""
+    if not top_tracks or len(top_tracks) == 0:
+        return None
+    
+    # Get top 15 tracks for better visualization
+    tracks_data = top_tracks[:15]
+    df_tracks = pd.DataFrame(tracks_data)
+    
+    # Create track labels
+    df_tracks['track_label'] = df_tracks['name'] + " - " + df_tracks['artist']
+    
+    # Use popularity if available, otherwise use index
+    y_col = 'popularity' if 'popularity' in df_tracks.columns else None
+    
+    if y_col:
+        fig = px.bar(
+            df_tracks,
+            x=y_col,
+            y='track_label',
+            orientation='h',
+            title="Top Tracks by Popularity",
+            labels={y_col: 'Popularity Score', 'track_label': 'Track'},
+            color=y_col,
+            color_continuous_scale="viridis"
+        )
+    else:
+        # Fallback: just show track names
+        fig = px.bar(
+            df_tracks,
+            x=[1] * len(df_tracks),
+            y='track_label',
+            orientation='h',
+            title="Top Tracks",
+            labels={'x': 'Count', 'track_label': 'Track'}
+        )
+    
+    fig.update_layout(
+        height=600,
+        title_x=0.5,
+        yaxis={'categoryorder': 'total ascending'}
+    )
+    
+    return fig
+
+def main():
+    """Main dashboard function."""
+    # Header
+    st.markdown(f'<h1 class="main-header">🎵 {DASHBOARD_TITLE}</h1>', 
+                unsafe_allow_html=True)
+    
+    # Load data
+    data = load_data()
+    
+    if data is None:
+        st.stop()
+    
+    # Sidebar
+    st.sidebar.markdown("## 📊 Dashboard Navigation")
+    st.sidebar.markdown("---")
+    
+    # Display metadata
+    metadata = data.get('metadata', {})
+    st.sidebar.markdown(f"**📈 Total Tracks:** {metadata.get('total_tracks', 'N/A')}")
+    
+    date_range = metadata.get('date_range', {})
+    if date_range.get('min_year') and date_range.get('max_year'):
+        st.sidebar.markdown(f"**📅 Year Range:** {date_range['min_year']} - {date_range['max_year']}")
+    
+    st.sidebar.markdown(f"**🔄 Last Updated:** {metadata.get('last_updated', 'Unknown')}")
+    st.sidebar.markdown("---")
+    
+    # Page selection
+    page = st.sidebar.selectbox(
+        "Choose Analysis View:",
+        ["📋 Overview", "🎵 Top Tracks", "🔗 Feature Correlations", "📈 Trends Over Time", "📊 Statistics"]
+    )
+    
+    if page == "📋 Overview":
+        st.markdown("## 📋 Project Overview")
+        
+        # Key metrics in columns
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("🎵 Total Tracks", f"{metadata.get('total_tracks', 0):,}")
+        
+        with col2:
+            features_count = len(metadata.get('available_features', []))
+            st.metric("🎼 Audio Features", features_count)
+        
+        with col3:
+            top_tracks_count = len(data.get('top_tracks', []))
+            st.metric("🔥 Top Tracks", top_tracks_count)
+        
+        with col4:
+            trends_count = len(data.get('yearly_trends', []))
+            st.metric("📈 Trend Points", trends_count)
+        
+        st.markdown("---")
+        
+        # Project description
+        st.markdown("""
+        ### 🎯 About This Project
+        
+        This dashboard provides comprehensive analysis of **Spotify music data focused on Ontario-related content**. 
+        The analysis explores musical characteristics, trends, and patterns in Canadian music.
+        
+        #### 🔍 What's Included:
+        """)
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            **📊 Data Analysis:**
+            - 🎵 Track characteristics and popularity
+            - 🎼 Audio feature correlations
+            - 📈 Temporal music trends
+            - 📋 Statistical summaries
+            """)
+        
+        with col2:
+            st.markdown("""
+            **🎨 Visualizations:**
+            - 📊 Interactive charts and graphs
+            - 🔗 Correlation heatmaps
+            - 📈 Time series analysis
+            - 🎵 Top tracks rankings
+            """)
+        
+        # Data quality indicators
+        if metadata.get('available_features'):
+            st.markdown("### 🎼 Available Audio Features")
+            
+            features = metadata['available_features']
+            feature_descriptions = {
+                'danceability': '💃 How suitable for dancing (0.0 to 1.0)',
+                'energy': '⚡ Intensity and power (0.0 to 1.0)', 
+                'valence': '😊 Musical positivity (0.0 to 1.0)',
+                'tempo': '🥁 Beats per minute (BPM)',
+                'loudness': '🔊 Overall loudness in decibels',
+                'acousticness': '🎸 Acoustic vs electronic (0.0 to 1.0)',
+                'instrumentalness': '🎻 Vocal vs instrumental (0.0 to 1.0)',
+                'liveness': '🎤 Live performance likelihood (0.0 to 1.0)',
+                'speechiness': '🗣️ Spoken word content (0.0 to 1.0)',
+                'key': '🎹 Musical key (0-11, C=0)',
+                'mode': '🎵 Major (1) or minor (0) modality'
+            }
+            
+            # Display features in a nice grid
+            cols = st.columns(2)
+            for i, feature in enumerate(features):
+                with cols[i % 2]:
+                    description = feature_descriptions.get(feature, f'📊 {feature.title()}')
+                    st.markdown(f"**{description}**")
+        
+        # Data source and quality info
+        st.markdown("---")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("### 📅 Data Timeline")
+            date_range = metadata.get('date_range', {})
+            if date_range.get('min_year') and date_range.get('max_year'):
+                st.markdown(f"**From:** {date_range['min_year']}")
+                st.markdown(f"**To:** {date_range['max_year']}")
+                years_span = date_range['max_year'] - date_range['min_year']
+                st.markdown(f"**Span:** {years_span} years")
+            else:
+                st.markdown("*Date information not available*")
+        
+        with col2:
+            st.markdown("### 🔄 Data Status")
+            st.markdown(f"**Last Updated:** {metadata.get('last_updated', 'Unknown')}")
+            total_playlists = metadata.get('total_playlists', 0)
+            if total_playlists > 0:
+                st.markdown(f"**Playlists Analyzed:** {total_playlists:,}")
+            
+            # Data quality indicator
+            if features_count > 0:
+                st.markdown("✅ **Audio features available**")
+            else:
+                st.markdown("⚠️ **No audio features found**")
+        
+        # Navigation help
+        st.markdown("---")
+        st.markdown("""
+        ### 🧭 How to Navigate
+        
+        Use the **sidebar** to explore different aspects of the data:
+        
+        - **🎵 Top Tracks:** Discover the most popular tracks
+        - **🔗 Feature Correlations:** See how audio features relate to each other  
+        - **📈 Trends Over Time:** Explore how music has evolved
+        - **📊 Statistics:** Dive into detailed data summaries
+        
+        💡 **Tip:** Hover over charts for detailed information and use zoom/pan controls!
+        """)
+        
+        # Quick stats preview
+        if data.get('summary_stats'):
+            st.markdown("### 📊 Quick Statistics Preview")
+            stats = data['summary_stats']
+            
+            # Show a few key stats
+            if 'energy' in stats:
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("⚡ Avg Energy", f"{stats['energy']['mean']:.2f}")
+                with col2:
+                    st.metric("💃 Avg Danceability", f"{stats.get('danceability', {}).get('mean', 0):.2f}")
+                with col3:
+                    st.metric("😊 Avg Valence", f"{stats.get('valence', {}).get('mean', 0):.2f}")
+    
+    elif page == "🎵 Top Tracks":
+        st.markdown("## 🎵 Top Tracks Analysis")
+        
+        top_tracks = data.get('top_tracks', [])
+        if top_tracks:
+            # Chart
+            fig = create_top_tracks_chart(top_tracks)
+            if fig:
+                st.plotly_chart(fig, use_container_width=True)
+            
+            # Data table
+            st.markdown("### 📋 Detailed Track Information")
+            df_tracks = pd.DataFrame(top_tracks[:20])  # Show top 20
+            st.dataframe(df_tracks, use_container_width=True)
+        else:
+            st.warning("⚠️ No top tracks data available.")
+    
+    elif page == "🔗 Feature Correlations":
+        st.markdown("## 🔗 Audio Features Correlation")
+        
+        correlations = data.get('feature_correlations', {})
+        if correlations:
+            fig = create_feature_correlation_heatmap(correlations)
+            if fig:
+                st.plotly_chart(fig, use_container_width=True)
+                
+                st.markdown("""
+                ### 📖 Understanding Correlations
+                - **Strong Positive (>0.7):** Features move together
+                - **Strong Negative (<-0.7):** Features move in opposite directions
+                - **Weak (-0.3 to 0.3):** Little to no relationship
+                """)
+        else:
+            st.warning("⚠️ No correlation data available.")
+    
+    elif page == "📈 Trends Over Time":
+        st.markdown("## 📈 Musical Trends Over Time")
+        
+        yearly_trends = data.get('yearly_trends', [])
+        if yearly_trends:
+            fig = create_yearly_trends_chart(yearly_trends)
+            if fig:
+                st.plotly_chart(fig, use_container_width=True)
+                
+                st.markdown("""
+                ### 🔍 Trend Insights
+                This chart shows how musical characteristics have evolved over time in Ontario music.
+                Look for patterns in energy, danceability, and other audio features.
+                """)
+        else:
+            st.warning("⚠️ No temporal trends data available.")
+    
+    elif page == "📊 Statistics":
+        st.markdown("## 📊 Statistical Summary")
+        
+        summary_stats = data.get('summary_stats', {})
+        if summary_stats:
+            # Create statistics table
+            stats_data = []
+            for feature, stats in summary_stats.items():
+                stats_data.append({
+                    'Feature': feature.title(),
+                    'Mean': stats.get('mean', 'N/A'),
+                    'Median': stats.get('median', 'N/A'),
+                    'Std Dev': stats.get('std', 'N/A'),
+                    'Min': stats.get('min', 'N/A'),
+                    'Max': stats.get('max', 'N/A'),
+                    'Count': stats.get('count', 'N/A')
+                })
+            
+            df_stats = pd.DataFrame(stats_data)
+            st.dataframe(df_stats, use_container_width=True)
+            
+            # Feature distribution plots
+            st.markdown("### 📈 Feature Distributions")
+            
+            if len(summary_stats) > 0:
+                # Select feature for distribution
+                feature_names = list(summary_stats.keys())
+                selected_feature = st.selectbox("Select feature to visualize:", feature_names)
+                
+                if selected_feature in summary_stats:
+                    stats = summary_stats[selected_feature]
+                    
+                    # Create a simple distribution visualization
+                    col1, col2, col3 = st.columns(3)
+                    
+                    with col1:
+                        st.metric("Mean", f"{stats.get('mean', 0):.3f}")
+                    with col2:
+                        st.metric("Median", f"{stats.get('median', 0):.3f}")
+                    with col3:
+                        st.metric("Std Dev", f"{stats.get('std', 0):.3f}")
+        else:
+            st.warning("⚠️ No statistical data available.")
+
+if __name__ == "__main__":
+    main()

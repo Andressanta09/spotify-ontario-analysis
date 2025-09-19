@@ -1,0 +1,214 @@
+{
+  "data_dictionary": {
+    "tracks": {
+      "track_id": {
+        "description": "Unique Spotify identifier for the track",
+        "type": "string",
+        "example": "4iV5W9uYEdYUVa79Axb7Rh"
+      },
+      "name": {
+        "description": "Name of the track",
+        "type": "string",
+        "example": "Watermelon Sugar"
+      },
+      "artist": {
+        "description": "Primary artist name",
+        "type": "string",
+        "example": "Harry Styles"
+      },
+      "album": {
+        "description": "Album name",
+        "type": "string",
+        "example": "Fine Line"
+      },
+      "duration_ms": {
+        "description": "Track duration in milliseconds",
+        "type": "integer",
+        "example": 174000
+      },
+      "popularity": {
+        "description": "Spotify popularity score (0-100)",
+        "type": "integer",
+        "range": "0-100",
+        "example": 84
+      },
+      "release_date": {
+        "description": "Track release date",
+        "type": "date",
+        "format": "YYYY-MM-DD",
+        "example": "2019-12-13"
+      },
+      "playlist_id": {
+        "description": "Identifier of the playlist containing this track",
+        "type": "string",
+        "example": "playlist_001"
+      },
+      "playlist_name": {
+        "description": "Name of the playlist containing this track",
+        "type": "string",
+        "example": "Ontario Hits 2020"
+      }
+    },
+    "audio_features": {
+      "danceability": {
+        "description": "How suitable a track is for dancing",
+        "type": "float",
+        "range": "0.0-1.0",
+        "interpretation": "0.0 = least danceable, 1.0 = most danceable"
+      },
+      "energy": {
+        "description": "Perceptual measure of intensity and power",
+        "type": "float", 
+        "range": "0.0-1.0",
+        "interpretation": "0.0 = low energy, 1.0 = high energy"
+      },
+      "key": {
+        "description": "Musical key of the track",
+        "type": "integer",
+        "range": "0-11",
+        "mapping": {
+          "0": "C", "1": "C♯/D♭", "2": "D", "3": "D♯/E♭",
+          "4": "E", "5": "F", "6": "F♯/G♭", "7": "G",
+          "8": "G♯/A♭", "9": "A", "10": "A♯/B♭", "11": "B"
+        }
+      },
+      "loudness": {
+        "description": "Overall loudness in decibels (dB)",
+        "type": "float",
+        "range": "-60 to 0",
+        "interpretation": "Higher values = louder"
+      },
+      "mode": {
+        "description": "Musical modality",
+        "type": "integer",
+        "mapping": {
+          "0": "minor",
+          "1": "major"
+        }
+      },
+      "speechiness": {
+        "description": "Presence of spoken words",
+        "type": "float",
+        "range": "0.0-1.0",
+        "interpretation": ">0.66 = mostly spoken word, 0.33-0.66 = mix, <0.33 = mostly music"
+      },
+      "acousticness": {
+        "description": "Confidence measure of acoustic vs electronic",
+        "type": "float",
+        "range": "0.0-1.0",
+        "interpretation": "1.0 = high confidence the track is acoustic"
+      },
+      "instrumentalness": {
+        "description": "Predicts whether a track contains no vocals",
+        "type": "float",
+        "range": "0.0-1.0",
+        "interpretation": ">0.5 = likely instrumental"
+      },
+      "liveness": {
+        "description": "Detects presence of audience in recording",
+        "type": "float",
+        "range": "0.0-1.0",
+        "interpretation": ">0.8 = strong likelihood of live performance"
+      },
+      "valence": {
+        "description": "Musical positiveness/happiness",
+        "type": "float",
+        "range": "0.0-1.0",
+        "interpretation": "High valence = positive/happy, low valence = negative/sad"
+      },
+      "tempo": {
+        "description": "Overall estimated tempo in beats per minute (BPM)",
+        "type": "float",
+        "range": "typically 50-200",
+        "example": 120.0
+      }
+    },
+    "playlists": {
+      "id": {
+        "description": "Unique identifier for the playlist",
+        "type": "string",
+        "example": "playlist_001"
+      },
+      "name": {
+        "description": "Playlist name",
+        "type": "string",
+        "example": "Ontario Hits 2020"
+      },
+      "description": {
+        "description": "Playlist description",
+        "type": "string",
+        "example": "The biggest hits from Ontario artists in 2020"
+      },
+      "owner": {
+        "description": "Spotify username of playlist owner",
+        "type": "string",
+        "example": "spotify_canada"
+      },
+      "followers": {
+        "description": "Number of playlist followers",
+        "type": "integer",
+        "example": 15420
+      },
+      "tracks_total": {
+        "description": "Total number of tracks in playlist",
+        "type": "integer",
+        "example": 50
+      },
+      "public": {
+        "description": "Whether playlist is public",
+        "type": "boolean",
+        "example": true
+      },
+      "created_at": {
+        "description": "Playlist creation timestamp",
+        "type": "datetime",
+        "format": "ISO 8601",
+        "example": "2020-01-15T10:30:00Z"
+      },
+      "updated_at": {
+        "description": "Last playlist update timestamp", 
+        "type": "datetime",
+        "format": "ISO 8601",
+        "example": "2020-12-31T15:45:00Z"
+      }
+    }
+  },
+  "data_sources": {
+    "spotify_web_api": {
+      "description": "Official Spotify Web API",
+      "endpoints_used": [
+        "search",
+        "playlists", 
+        "tracks",
+        "audio-features"
+      ],
+      "rate_limits": "Applied per API guidelines",
+      "authentication": "Client credentials flow"
+    }
+  },
+  "collection_methodology": {
+    "search_strategy": "Ontario-related keywords and location-based filtering",
+    "playlist_criteria": [
+      "Contains 'Ontario', 'Toronto', 'Canada' keywords",
+      "Created by Canadian users",
+      "High follower count",
+      "Regular updates"
+    ],
+    "data_quality": {
+      "duplicate_removal": "Based on track_id and playlist_id combinations",
+      "missing_data_handling": "Audio features with null values excluded from analysis",
+      "outlier_detection": "Statistical outliers flagged but retained"
+    }
+  },
+  "analysis_insights": {
+    "key_metrics": [
+      "Track popularity distribution",
+      "Audio feature correlations", 
+      "Temporal trends in music characteristics",
+      "Genre representation",
+      "Artist diversity"
+    ],
+    "geographic_focus": "Ontario, Canada music scene with broader Canadian context",
+    "time_coverage": "Historical data from various decades with emphasis on recent releases"
+  }
+}
