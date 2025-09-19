@@ -16,62 +16,62 @@
 
 # Core Data Processing
 # -------------------------------------------------------------------------------
-pandas>=2.0.0,<3.0.0          # Data manipulation and analysis
-numpy>=1.24.0,<2.0.0          # Numerical computing
-scipy>=1.10.0                 # Scientific computing (for advanced statistics)
+pandas          # Data manipulation and analysis
+numpy          # Numerical computing
+scipy               # Scientific computing (for advanced statistics)
 
 # Spotify API Integration
 # -------------------------------------------------------------------------------
-spotipy>=2.23.0,<3.0.0        # Spotify Web API client
-python-dotenv>=1.0.0,<2.0.0   # Environment variable management
-requests>=2.31.0,<3.0.0       # HTTP requests (spotipy dependency)
-urllib3>=1.26.0,<3.0.0        # URL handling (requests dependency)
+spotipy        # Spotify Web API client
+python-dotenv   # Environment variable management
+requests       # HTTP requests (spotipy dependency)
+urllib3        # URL handling (requests dependency)
 
 # Data Visualization
 # -------------------------------------------------------------------------------
-plotly>=5.15.0,<6.0.0         # Interactive visualizations (dashboard & reports)
-matplotlib>=3.7.0,<4.0.0      # Static plotting (notebook analysis)
-seaborn>=0.12.0,<1.0.0        # Statistical data visualization
+plotly         # Interactive visualizations (dashboard & reports)
+matplotlib      # Static plotting (notebook analysis)
+seaborn        # Statistical data visualization
 
 # Dashboard & Web Interface
 # -------------------------------------------------------------------------------
-streamlit>=1.28.0,<2.0.0      # Interactive web dashboard
-streamlit-plotly-events>=0.0.6 # Enhanced plotly integration (optional)
+streamlit      # Interactive web dashboard
+streamlit-plotly-events # Enhanced plotly integration (optional)
 
 # Data Storage & File Formats
 # -------------------------------------------------------------------------------
-pyarrow>=13.0.0,<15.0.0       # Parquet file format support (high performance)
-fastparquet>=0.8.3            # Alternative parquet engine (fallback)
-openpyxl>=3.1.0               # Excel file support (optional exports)
+pyarrow       # Parquet file format support (high performance)
+fastparquet            # Alternative parquet engine (fallback)
+openpyxl               # Excel file support (optional exports)
 
 # Development & Analysis Tools
 # -------------------------------------------------------------------------------
-jupyter>=1.0.0                # Interactive notebook environment
-notebook>=6.5.0,<8.0.0        # Jupyter notebook server
-ipywidgets>=8.0.0             # Interactive widgets for notebooks
-tqdm>=4.65.0                  # Progress bars for data processing
+jupyter                # Interactive notebook environment
+notebook        # Jupyter notebook server
+ipywidgets             # Interactive widgets for notebooks
+tqdm                  # Progress bars for data processing
 
 # Additional Utilities
 # -------------------------------------------------------------------------------
-python-dateutil>=2.8.0        # Date/time utilities (pandas dependency)
-pytz>=2023.3                  # Timezone handling
-schedule>=1.2.0               # Task scheduling (for automated reports)
+python-dateutil        # Date/time utilities (pandas dependency)
+pytz                  # Timezone handling
+schedule               # Task scheduling (for automated reports)
 
 # Data Quality & Validation
 # -------------------------------------------------------------------------------
-jsonschema>=4.19.0            # JSON schema validation
-pydantic>=2.0.0               # Data validation and settings management
+jsonschema            # JSON schema validation
+pydantic               # Data validation and settings management
 
 # Performance & Optimization
 # -------------------------------------------------------------------------------
-numba>=0.57.0                 # JIT compilation for numerical functions (optional)
-cython>=0.29.0                # C extensions for performance (optional)
+numba                 # JIT compilation for numerical functions (optional)
+cython                # C extensions for performance (optional)
 
 # Export & Reporting
 # -------------------------------------------------------------------------------
-jinja2>=3.1.0                 # Template engine for HTML reports
-weasyprint>=59.0              # HTML to PDF conversion (optional)
-reportlab>=4.0.0              # PDF generation (alternative)
+jinja2                 # Template engine for HTML reports
+weasyprint              # HTML to PDF conversion (optional)
+reportlab              # PDF generation (alternative)
 
 # ===============================================================================
 # Optional Dependencies (for advanced features)
@@ -80,18 +80,18 @@ reportlab>=4.0.0              # PDF generation (alternative)
 # Uncomment these for additional functionality:
 #
 # # Machine Learning (for future enhancements)
-# scikit-learn>=1.3.0
+# scikit-learn
 # 
 # # Database connectivity
-# sqlalchemy>=2.0.0
+# sqlalchemy
 # 
 # # Cloud storage
-# boto3>=1.28.0              # AWS S3 integration
-# google-cloud-storage>=2.10.0  # Google Cloud Storage
+# boto3              # AWS S3 integration
+# google-cloud-storage  # Google Cloud Storage
 #
 # # Advanced visualization
-# bokeh>=3.2.0               # Alternative visualization library
-# altair>=5.0.0              # Grammar of graphics visualization
+# bokeh               # Alternative visualization library
+# altair              # Grammar of graphics visualization
 #
 # ===============================================================================
 
@@ -99,10 +99,10 @@ reportlab>=4.0.0              # PDF generation (alternative)
 # ===============================================================================
 # pip install pytest pytest-cov black flake8 mypy pre-commit
 #
-# pytest>=7.4.0             # Testing framework
-# pytest-cov>=4.1.0         # Coverage reporting
-# black>=23.7.0             # Code formatting
-# flake8>=6.0.0             # Linting
-# mypy>=1.5.0               # Type checking
-# pre-commit>=3.3.0         # Git hooks for code quality
+# pytest             # Testing framework
+# pytest-cov         # Coverage reporting
+# black             # Code formatting
+# flake8             # Linting
+# mypy               # Type checking
+# pre-commit         # Git hooks for code quality
 # ===============================================================================
