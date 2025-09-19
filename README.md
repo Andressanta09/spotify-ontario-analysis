@@ -1,49 +1,49 @@
-# 🎵 Spotify Ontario Music Analysis
+# Spotify Ontario Music Analysis
 
 A comprehensive analysis of Ontario music trends using Spotify data, featuring automated data collection, cleaning, analysis, and interactive visualizations.
 
-## 🎯 Project Overview
+## Project Overview
 
 This project provides deep insights into the Ontario music scene by analyzing Spotify playlists, tracks, and audio features. It combines data engineering, statistical analysis, and interactive visualization to understand musical trends, characteristics, and patterns in Canadian music.
 
-### ✨ Key Features
+### Key Features
 
-- **🔍 Smart Data Collection**: Automated Spotify API integration with alternative audio features
-- **🧹 Robust Data Processing**: Advanced cleaning and validation with PyArrow support
-- **📊 Comprehensive Analysis**: Exploratory data analysis with statistical insights
-- **📈 Interactive Dashboard**: Real-time Streamlit visualization platform
-- **📄 Automated Reports**: HTML reports with dynamic charts and insights
-- **🎼 Audio Intelligence**: Deep analysis of musical characteristics and correlations
-- **📅 Temporal Insights**: Music evolution trends across decades
+- ** Smart Data Collection**: Automated Spotify API integration with alternative audio features
+- ** Robust Data Processing**: Advanced cleaning and validation with PyArrow support
+- ** Comprehensive Analysis**: Exploratory data analysis with statistical insights
+- ** Interactive Dashboard**: Real-time Streamlit visualization platform
+- ** Automated Reports**: HTML reports with dynamic charts and insights
+- ** Audio Intelligence**: Deep analysis of musical characteristics and correlations
+- ** Temporal Insights**: Music evolution trends across decades
 
-## 🏗️ Project Architecture
+## Project Architecture
 
 ```
 spotify-ontario-analysis/
 │
 ├── 📁 data/
-│   ├── raw/               # 🔍 Raw extracted data (CSV files)
-│   ├── processed/         # 🧹 Clean data (Parquet/CSV optimized)
-│   └── samples/           # 📋 Sample datasets & data dictionary
+│   ├── raw/               #  Raw extracted data (CSV files)
+│   ├── processed/         #  Clean data (Parquet/CSV optimized)
+│   └── samples/           #  Sample datasets & data dictionary
 │
 ├── 📁 notebooks/
-│   ├── 01_collect.ipynb   # 🔍 Data collection with smart alternatives
-│   ├── 02_clean.ipynb     # 🧹 Data cleaning & preprocessing
-│   └── 03_analysis.ipynb  # 📊 Statistical analysis & insights
+│   ├── 01_collect.ipynb   #  Data collection with smart alternatives
+│   ├── 02_clean.ipynb     #  Data cleaning & preprocessing
+│   └── 03_analysis.ipynb  #  Statistical analysis & insights
 │
 ├── 📁 dashboard/
-│   ├── app.py            # 📈 Streamlit dashboard application
-│   └── assets/           # 🎨 CSS styling & visual resources
+│   ├── app.py            #  Streamlit dashboard application
+│   └── assets/           #  CSS styling & visual resources
 │
-├── 📁 reports/           # 📄 Automated HTML/PDF reports
-├── 🚀 run_dashboard.py   # 📱 Dashboard launcher script
-├── 📊 generate_report.py # 📈 Automated report generator
-├── 📦 requirements.txt   # � Python dependencies
-├── 📖 README.md          # � Project documentation
-└── 🔧 .env.example       # ⚙️ Environment configuration
+├── 📁 reports/           #  Automated HTML/PDF reports
+├──  run_dashboard.py   #  Dashboard launcher script
+├──  generate_report.py #  Automated report generator
+├──  requirements.txt   #  Python dependencies
+├──  README.md          #  Project documentation
+└──  .env.example       #  Environment configuration
 ```
 
-## �️ Technical Stack
+## Technical Stack
 
 ### Core Technologies
 - **Python 3.8+**: Main programming language
@@ -62,13 +62,13 @@ spotify-ontario-analysis/
 - **Plotly Graph Objects**: Custom interactive visualizations
 - **Streamlit Components**: Dashboard interactivity
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Environment Setup
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/spotify-ontario-analysis.git
+git clone https://github.com/Andressanta09/spotify-ontario-analysis.git
 cd spotify-ontario-analysis
 
 # Install dependencies
@@ -79,7 +79,7 @@ pip install -r requirements.txt
 
 ```bash
 # Copy environment template
-cp .env.example .env
+cp .env
 
 # Edit .env with your Spotify credentials
 # Get credentials from: https://developer.spotify.com/dashboard
@@ -96,8 +96,6 @@ jupyter notebook
 # 2. notebooks/02_clean.ipynb  
 # 3. notebooks/03_analysis.ipynb
 
-# Option B: Use sample data for quick testing
-# Sample data is included in data/samples/
 ```
 
 ### 4. Launch Dashboard
@@ -106,8 +104,6 @@ jupyter notebook
 # Easy launcher (checks requirements automatically)
 python run_dashboard.py
 
-# Or direct Streamlit command
-streamlit run dashboard/app.py
 ```
 
 ### 5. Generate Reports
@@ -117,9 +113,9 @@ streamlit run dashboard/app.py
 python generate_report.py
 ```
 
-## � Data Pipeline
+## Data Pipeline
 
-### 🔍 Collection (01_collect.ipynb)
+###  Collection (01_collect.ipynb)
 - **Ontario-focused search**: Targeted playlist discovery
 - **Smart alternatives**: Alternative audio features when API fails
 - **Rate limiting**: Respectful API usage
@@ -127,7 +123,7 @@ python generate_report.py
 
 **Success Rate**: ~99.2% for alternative audio features
 
-### 🧹 Cleaning (02_clean.ipynb) 
+###  Cleaning (02_clean.ipynb) 
 - **Deduplication**: Track and playlist duplicate removal
 - **Format standardization**: Consistent data types and formats
 - **Missing data handling**: Strategic imputation and filtering
@@ -135,62 +131,62 @@ python generate_report.py
 
 **Data Quality**: Comprehensive validation and error handling
 
-### 📊 Analysis (03_analysis.ipynb)
+###  Analysis (03_analysis.ipynb)
 - **Descriptive statistics**: Central tendencies and distributions
 - **Feature correlations**: Audio characteristic relationships
 - **Temporal analysis**: Trends across release years
 - **Popularity insights**: Track ranking and characteristics
 
-## 🎼 Audio Features Analyzed
+##  Audio Features Analyzed
 
 ### Musical Characteristics
-- **🎵 Danceability**: Suitability for dancing (0.0-1.0)
-- **⚡ Energy**: Intensity and power (0.0-1.0)
-- **😊 Valence**: Musical positivity/happiness (0.0-1.0)
-- **🎸 Acousticness**: Acoustic vs electronic nature (0.0-1.0)
-- **🎻 Instrumentalness**: Vocal vs instrumental content (0.0-1.0)
+- ** Danceability**: Suitability for dancing (0.0-1.0)
+- ** Energy**: Intensity and power (0.0-1.0)
+- ** Valence**: Musical positivity/happiness (0.0-1.0)
+- ** Acousticness**: Acoustic vs electronic nature (0.0-1.0)
+- ** Instrumentalness**: Vocal vs instrumental content (0.0-1.0)
 
 ### Technical Properties
-- **🥁 Tempo**: Beats per minute (BPM)
-- **🔊 Loudness**: Overall volume in decibels
-- **🎹 Key**: Musical key (C, C#, D, etc.)
-- **🎵 Mode**: Major (1) or minor (0) modality
-- **🗣️ Speechiness**: Spoken word vs music content
+- ** Tempo**: Beats per minute (BPM)
+- ** Loudness**: Overall volume in decibels
+- ** Key**: Musical key (C, C#, D, etc.)
+- ** Mode**: Major (1) or minor (0) modality
+- ** Speechiness**: Spoken word vs music content
 
-## 📈 Dashboard Features
+##  Dashboard Features
 
-### 🎯 Overview
+###  Overview
 - **Key metrics**: Total tracks, artists, features
 - **Data quality**: Availability indicators
 - **Navigation guide**: User-friendly interface
 
-### 🎵 Top Tracks Analysis
+###  Top Tracks Analysis
 - **Popularity rankings**: Most popular tracks
 - **Interactive charts**: Hover details and filtering
 - **Track details**: Artist, album, and feature information
 
-### 🔗 Feature Correlations
+###  Feature Correlations
 - **Heatmap visualization**: Feature relationship matrix
 - **Statistical insights**: Correlation strength indicators
 - **Pattern identification**: Musical characteristic clusters
 
-### 📅 Temporal Trends
+###  Temporal Trends
 - **Multi-year analysis**: Decade-spanning trends
 - **Feature evolution**: How music characteristics change
 - **Interactive timeline**: Zoom and pan capabilities
 
-### 📊 Statistics Summary
+###  Statistics Summary
 - **Descriptive statistics**: Mean, median, standard deviation
 - **Distribution analysis**: Feature value spreads
 - **Data quality metrics**: Completeness indicators
 
-## 📄 Automated Reporting
+##  Automated Reporting
 
 ### Report Features
-- **🌐 Interactive HTML**: Self-contained with embedded charts
-- **📊 Comprehensive visualizations**: All key insights included
-- **📱 Responsive design**: Mobile and desktop compatible
-- **🎨 Professional styling**: Spotify-inspired color scheme
+- ** Interactive HTML**: Self-contained with embedded charts
+- ** Comprehensive visualizations**: All key insights included
+- ** Responsive design**: Mobile and desktop compatible
+- ** Professional styling**: Spotify-inspired color scheme
 
 ### Report Contents
 - Executive summary with key statistics
@@ -199,7 +195,7 @@ python generate_report.py
 - Temporal trends and patterns
 - Data quality and source information
 
-## 🎯 Use Cases
+##  Use Cases
 
 ### Academic Research
 - **Music trend analysis**: Studying Canadian music evolution
@@ -239,7 +235,7 @@ MAX_AUDIO_FEATURES_BATCH=100
 - **Visualization themes**: Color schemes and styling
 - **Report templates**: Custom HTML layouts
 
-## 🚨 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -279,7 +275,7 @@ python run_dashboard.py  # Checks and installs dependencies
 - Clear unused DataFrames
 - Use efficient data types
 
-## 🤝 Contributing
+##  Contributing
 
 ### Development Setup
 ```bash
@@ -304,14 +300,14 @@ pip install jupyter plotly streamlit
 - **Performance optimization**: Speed and memory efficiency
 - **Documentation**: Examples and tutorials
 
-## 📋 Future Enhancements
+##  Future Enhancements
 
 ### Planned Features
-- **🎭 Genre classification**: Automated genre detection
-- **🌍 Geographic expansion**: Other Canadian provinces
-- **🤖 Machine learning**: Predictive modeling
-- **📱 Mobile app**: React Native dashboard
-- **☁️ Cloud deployment**: AWS/Azure hosting
+- ** Genre classification**: Automated genre detection
+- ** Geographic expansion**: Other Canadian provinces
+- ** Machine learning**: Predictive modeling
+- ** Mobile app**: React Native dashboard
+- ** Cloud deployment**: AWS/Azure hosting
 
 ### Research Opportunities
 - **Seasonal patterns**: Music preference changes
@@ -319,36 +315,11 @@ pip install jupyter plotly streamlit
 - **Artist networks**: Collaboration analysis
 - **Mood analysis**: Emotional content patterns
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Spotify**: For providing comprehensive music data API
-- **Ontario Music Community**: For creating diverse and rich playlists
-- **Open Source Libraries**: Pandas, Plotly, Streamlit ecosystems
-- **Research Community**: Music information retrieval insights
-
-## 📞 Support
-
-### Getting Help
-- **� Documentation**: Check this README and report docs
-- **💬 Discussions**: GitHub Discussions for questions
-- **🐛 Issues**: GitHub Issues for bug reports
-- **📧 Contact**: [your-email@example.com]
-
 ### Useful Resources
 - [Spotify Web API Documentation](https://developer.spotify.com/documentation/web-api/)
 - [Streamlit Documentation](https://docs.streamlit.io/)
 - [Plotly Python Documentation](https://plotly.com/python/)
 - [Pandas User Guide](https://pandas.pydata.org/docs/user_guide/index.html)
-
----
-
-🎵 **Made with ❤️ for the Ontario music community**  
-📊 **Powered by data, driven by insights**  
-🚀 **Ready to explore? Run `python run_dashboard.py` to get started!**
 
 ```bash
 streamlit>=1.28.0    # Interactive dashboard
@@ -358,7 +329,7 @@ spotipy>=2.23.0      # Spotify API client
 python-dotenv>=1.0.0 # Environment management
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Setup Environment
 
@@ -423,56 +394,56 @@ The dashboard will automatically use your `.env` configuration:
 - **Port**: Uses `DASHBOARD_PORT` from `.env` (default: 8501)
 - **Title**: Uses `DASHBOARD_TITLE` from `.env`
 
-Open browser to `http://localhost:8501` 🌐
+Open browser to `http://localhost:8503`
 
-## 📊 Dashboard Features
+## Dashboard Features
 
-### 🏠 Overview Page
+###  Overview Page
 - Project summary and key metrics
 - Dataset statistics
 - Available audio features
 
-### 🎵 Top Tracks Analysis
+###  Top Tracks Analysis
 - Most popular tracks visualization
 - Interactive bar charts
 - Detailed track information table
 
-### 🔗 Feature Correlations
+###  Feature Correlations
 - Audio features correlation heatmap
 - Relationship analysis between musical characteristics
 - Interactive correlation matrix
 
-### 📈 Temporal Trends
+###  Temporal Trends
 - Musical evolution over time
 - Multi-feature trend analysis
 - Interactive time series plots
 
-### 📊 Statistical Summary
+###  Statistical Summary
 - Comprehensive feature statistics
 - Distribution analysis
 - Summary metrics
 
-## 🎼 Audio Features Analyzed
+##  Audio Features Analyzed
 
 | Feature | Description |
 |---------|-------------|
-| **🕺 Danceability** | How suitable a track is for dancing |
-| **⚡ Energy** | Intensity and powerful feeling measure |
-| **🎤 Speechiness** | Presence of spoken words |
-| **🎸 Acousticness** | Acoustic vs electronic confidence measure |
-| **🎻 Instrumentalness** | Predicts if track contains no vocals |
-| **🎪 Liveness** | Detects presence of audience |
-| **😊 Valence** | Musical positiveness/happiness |
-| **🥁 Tempo** | Overall estimated beats per minute |
+| ** Danceability** | How suitable a track is for dancing |
+| ** Energy** | Intensity and powerful feeling measure |
+| ** Speechiness** | Presence of spoken words |
+| ** Acousticness** | Acoustic vs electronic confidence measure |
+| ** Instrumentalness** | Predicts if track contains no vocals |
+| ** Liveness** | Detects presence of audience |
+| ** Valence** | Musical positiveness/happiness |
+| ** Tempo** | Overall estimated beats per minute |
 
-## 🔄 Workflow
+##  Workflow
 
 1. **Data Collection** → Fetch Ontario-related playlists via Spotify API
 2. **Data Cleaning** → Remove duplicates, handle missing values, standardize formats
 3. **Feature Analysis** → Calculate correlations, trends, and statistics
 4. **Visualization** → Generate interactive dashboard with insights
 
-## 📝 Output Files
+##  Output Files
 
 - `data/raw/playlists_YYYYMMDD_HHMMSS.csv` - Raw playlist data
 - `data/raw/tracks_YYYYMMDD_HHMMSS.csv` - Raw track data
@@ -480,7 +451,7 @@ Open browser to `http://localhost:8501` 🌐
 - `data/processed/clean_*.parquet` - Processed datasets
 - `dashboard/data.json` - Dashboard data file
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables (.env)
 ```env
@@ -501,10 +472,10 @@ DASHBOARD_TITLE=Ontario Music Analysis
 ```
 
 **Configuration Benefits:**
-- **🔧 Customizable data collection**: Adjust limits and timing
-- **🎛️ Flexible dashboard settings**: Custom port and title
-- **📁 Configurable data paths**: Organize your data structure
-- **⚡ Rate limiting control**: Respect API limits
+- ** Customizable data collection**: Adjust limits and timing
+- ** Flexible dashboard settings**: Custom port and title
+- ** Configurable data paths**: Organize your data structure
+- ** Rate limiting control**: Respect API limits
 
 ### Search Keywords
 The project searches for Ontario music using these keywords:
@@ -513,100 +484,3 @@ The project searches for Ontario music using these keywords:
 - Ontario bands
 - Toronto music
 - Canadian indie
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**❌ Spotify Authentication Error**
-- Verify credentials in `.env` file
-- Check redirect URI matches Spotify app settings
-- Ensure internet connection
-
-**❌ No Data Found**
-- Check API rate limits
-- Verify search keywords are appropriate
-- Try running notebooks individually
-
-**❌ Dashboard Not Loading**
-- Ensure `data.json` exists in dashboard folder
-- Run analysis notebook to generate dashboard data
-- Check Streamlit installation
-
-### 🆘 Getting Help
-
-1. Check logs in notebook outputs
-2. Verify all dependencies are installed
-3. Ensure data files exist before running dashboard
-4. Review error messages for specific issues
-
-## 📈 Future Enhancements
-
-- [ ] Geographic analysis by Ontario regions
-- [ ] Artist network analysis
-- [ ] Genre classification and trends
-- [ ] Recommendation system
-- [ ] Real-time data updates
-- [ ] Advanced ML models for music prediction
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) for data access
-- [Streamlit](https://streamlit.io/) for dashboard framework
-- [Plotly](https://plotly.com/) for interactive visualizations
-- Ontario music community for inspiration
-
----
-
-**Made with ❤️ for Ontario Music Analysis**
-   - Run `notebooks/02_clean.ipynb` to clean and preprocess the data
-   - Processed data will be saved in `data/processed/`
-
-3. Analysis:
-   - Run `notebooks/03_analysis.ipynb` for exploratory analysis
-   - This will generate the `dashboard/data.json` file
-
-4. Dashboard:
-   ```bash
-   cd dashboard
-   streamlit run app.py
-   ```
-
-## Data Structure
-
-### Raw Data
-- `playlists_*.csv`: Basic playlist information
-- `tracks_*.csv`: Track information and audio features
-
-### Processed Data
-- Parquet files with clean data
-- Optimized for efficient data loading
-
-## Dashboard
-
-The dashboard includes:
-- Key metrics overview
-- Temporal analysis of musical features
-- Audio feature distributions
-- Popularity rankings
-- Feature correlations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature/name`
-5. Create Pull Request
